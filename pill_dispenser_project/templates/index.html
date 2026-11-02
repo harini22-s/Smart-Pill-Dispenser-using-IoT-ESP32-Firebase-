@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pill Dispenser Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+<h1>Pill Dispenser Dashboard</h1>
+
+<div id="schedule-container">
+    <h2>Pill Schedule</h2>
+    <table>
+        <tr>
+            <th>Time</th>
+            <th>Dispensed</th>
+            <th>Taken</th>
+        </tr>
+        {% for time_key, details in data['dispense_status'].items() %}
+        <tr>
+            <td>{{ time_key }} ({{ details["time"] }})</td>
+            <td>{{ "✅" if details["dispensed"] else "❌" }}</td>
+            <td>{{ "✅" if details["taken"] else "❌" }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+<h2>Missed Doses</h2>
+<ul id="missed-doses">
+    {% for missed in data['alerts']['missed_doses'] %}
+    <li>{{ missed }}</li>
+    {% endfor %}
+</ul>
+
+<h2>Set New Schedule</h2>
+<form id="schedule-form">
+    <label for="time1">Time 1:</label>
+    <input type="time" id="time1" name="time1"><br>
+
+    <label for="time2">Time 2:</label>
+    <input type="time" id="time2" name="time2"><br>
+
+    <label for="time3">Time 3:</label>
+    <input type="time" id="time3" name="time3"><br>
+
+    <label for="time4">Time 4:</label>
+    <input type="time" id="time4" name="time4"><br>
+
+    <button type="submit">Update Schedule</button>
+</form>
+
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</body>
+</html>
